@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>赛事直播切片策划系统</title>
+<link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">⏱</span>
+    <div>
+      <h1>赛事直播切片策划系统</h1>
+      <small>比赛计时 · 媒体时间 · 帧位置 —— 三坐标版本化映射</small>
+    </div>
+  </div>
+  <nav id="versionTabs" class="tabs"></nav>
+  <div class="top-actions">
+    <span id="revBadge" class="rev"></span>
+    <button id="btnReset" class="ghost" title="重新播种演示数据">重置演示数据</button>
+  </div>
+</header>
+
+<main class="grid">
+  <!-- 左：预览器 + 时间轴 -->
+  <section class="col-preview">
+    <div class="card player-card">
+      <div class="card-h"><h2>源视频预览（帧精确合成时码器）</h2><span id="vfrBadge" class="badge">VFR</span></div>
+      <div class="stage-wrap">
+        <canvas id="stage" width="720" height="405"></canvas>
+        <div id="brokenOverlay" class="broken-overlay hidden">
+          <div class="broken-box">⚠ 坏链接保留：素材身份已登记但文件无法定位<br/><small id="brokenDetail"></small></div>
+        </div>
+        <div class="hud" id="hud"></div>
+      </div>
+
+      <div class="transport">
+        <button id="btnPlay">▶ 播放</button>
+        <button id="prevFrame">◀帧</button>
+        <button id="nextFrame">帧▶</button>
+        <button id="prevKey">◀1s</button>
+        <button id="nextKey">1s▶</button>
+        <span class="rate-label">素材：<select id="segSelect"></select></span>
+      </div>
+
+      <table class="coords">
+        <thead><tr><th>坐标</th><th>当前值</th><th>归属版本 / 段</th></tr></thead>
+        <tbody>
+          <tr class="c-frame"><td>帧位置 frame</td><td id="vFrame">–</td><td id="vFrameVer">–</td></tr>
+          <tr class="c-pts"><td>素材媒体时间 srcPts</td><td id="vPts">–</td><td id="vPtsVer">–</td></tr>
+          <tr class="c-media"><td>时间轴媒体时间 mediaUs</td><td id="vMedia">–</td><td id="vMediaVer">–</td></tr>
+          <tr class="c-game"><td>比赛计时 game</td><td id="vGame">–</td><td id="vGameVer">–</td></tr>
+        </tbody>
+      </table>
+      <p class="note" id="snapNote"></p>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h2>时间轴（媒体时间）</h2><small id="tlSummary"></small></div>
+      <div id="timelineBar" class="tl-bar"></div>
+      <div class="tl-legend">
+        <span><i class="sw program"></i>节目</span>
+        <span><i class="sw ad"></i>广告</span>
+        <span><i class="sw replay"></i>回放替换</span>
+        <span><i class="sw alt"></i>备机/后补</span>
+        <span><i class="sw gap"></i>缺口(广告/权利/断流)</span>
+      </div>
+      <div class="clock-strip"><div id="clockBar"></div></div>
+      <small class="note">上条：时间轴媒体时间（点击寻址）；下条：比赛计时映射。两轴不对齐正是广告插入/时间戳重置/后期替换的体现。</small>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h2>固定源镜头 · 帧级修剪</h2></div>
+      <div class="row">
+        <select id="fixClipSel"></select>
+        <label>入帧<input id="fixIn" type="number" size="8"/></label>
+        <label>出帧<input id="fixOut" type="number" size="8"/></label>
+        <button id="btnTrim">应用修剪（只改帧绑定，不漂移）</button>
+        <small id="fixInfo" class="note"></small>
+      </div>
+    </div>
+  </section>
+
+  <!-- 中：集锦编排 -->
+  <section class="col-reel">
+    <div class="card">
+      <div class="card-h"><h2>集锦 Rundown</h2>
+        <small id="reelStats"></small>
+      </div>
+      <div id="clipList" class="clip-list"></div>
+    </div>
+    <div class="card">
+      <div class="card-h"><h2>新增直播镜头</h2></div>
+      <div class="row">
+        <input id="ncName" placeholder="名称" size="14"/>
+        <label>比赛入(分)<input id="ncInM" type="number" step="0.001" size="7"/></label>
+        <label>比赛出(分)<input id="ncOutM" type="number" step="0.001" size="7"/></label>
+        <button id="btnAddClip">按比赛计时标注</button>
+      </div>
+      <small class="note">直播镜头绑定比赛计时；时间轴出新版本后自动重定位，歧义时给冲突提示。</small>
+    </div>
+  </section>
+
+  <!-- 右：事实/标题/作业/任务包 -->
+  <section class="col-side">
+    <div class="card">
+      <div class="card-h"><h2>比分事实</h2><span id="scoreNow" class="score-now"></span></div>
+      <div id="scoreList" class="fact-list"></div>
+      <div class="row wrap">
+        <label>时间(分)<input id="csM" type="number" step="0.001" size="6" value="9.25"/></label>
+        <label>主<input id="csH" type="number" size="3" value="1"/></label>
+        <label>客<input id="csA" type="number" size="3" value="0"/></label>
+        <button id="btnCorrectScore">订正比分→触发标题复核</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h2>标题文案</h2></div>
+      <div id="titleList" class="title-list"></div>
+      <div class="row wrap">
+        <select id="ntClip"></select>
+        <input id="ntText" placeholder="新标题文本" size="16"/>
+        <button id="btnAddTitle">加标题(待审)</button>
+      </div>
+      <small class="note">导出只混入 approved；比分/球员订正会把相关标题打回复核。</small>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h2>裁切作业 / 剪辑师任务包</h2></div>
+      <div class="row">
+        <select id="jobClipSel"></select>
+        <button id="btnEnqueue">入队</button>
+        <button id="btnRunAll" class="primary">工作器处理全部</button>
+      </div>
+      <div id="jobList" class="job-list"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h2>任务包产出</h2></div>
+      <div id="pkgList" class="pkg-list"></div>
+    </div>
+  </section>
+</main>
+
+<template id="clipTpl"></template>
+<script src="/app.js"></script>
+</body>
+</html>

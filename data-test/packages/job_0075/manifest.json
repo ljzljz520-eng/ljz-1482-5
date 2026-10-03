@@ -1,0 +1,146 @@
+{
+  "schema": "cut-task-package/v1",
+  "packageId": "7f9230b10e9f",
+  "jobId": "job_0075",
+  "clipId": "clip_0057",
+  "clipName": "9′ 进球集锦",
+  "reelId": "reel_main",
+  "position": 10,
+  "createdAt": "2026-10-03T15:23:01.029Z",
+  "storeRev": 80,
+  "binding": "live",
+  "timelineVersion": {
+    "id": "timelineVersion_0012",
+    "version": 2,
+    "label": "精编生产版（广告替换为 B-roll 回放）",
+    "kind": "post"
+  },
+  "reproducibility": {
+    "coordinates": [
+      "frame(materialVersion)",
+      "srcPtsUs(materialVersion)",
+      "mediaUs(timelineVersion)",
+      "gameMs(clockSegment)"
+    ],
+    "note": "四个坐标分别存证；任何转换均经版本化映射。禁止用单一秒数互通。",
+    "frameModel": {
+      "ptsRule": "framePtsUs(frame) = f*base + base*amp*period/2π*(1-cos(2πf/period)) (+dropUs per vfrDropFrames)",
+      "snap": "出点/入点附带 snapErrorUs，表示请求位置相对最近帧的偏差"
+    }
+  },
+  "status": "blocked",
+  "blockers": [
+    "unapproved_titles"
+  ],
+  "gameWindow": {
+    "gameInMs": 540000,
+    "gameOutMs": 600000
+  },
+  "scoreAtIn": {
+    "home": 0,
+    "away": 0,
+    "source": "kickoff"
+  },
+  "pieces": [
+    {
+      "role": "program",
+      "materialId": "material_0002",
+      "materialVersionId": "materialVersion_0006",
+      "fileUri": "media/main-cam-v1.mfv",
+      "fileSha256": "a435917fb9af10a42cda3cf494355252c33c278ca2746406cf61c0f058412084",
+      "in": {
+        "frame": 16200,
+        "srcPtsUs": 540000000,
+        "snapErrorUs": 0,
+        "timelineMediaUs": 540000000,
+        "gameMs": 540000
+      },
+      "out": {
+        "frame": 18000,
+        "srcPtsUs": 600000000,
+        "snapErrorUs": 0,
+        "timelineMediaUs": 600000000,
+        "gameMs": 600000
+      },
+      "fpsNominal": 30,
+      "vfr": true,
+      "fileAvailable": true
+    },
+    {
+      "role": "program",
+      "materialId": "material_0004",
+      "materialVersionId": "materialVersion_0008",
+      "fileUri": "media/broll-v1.mfv",
+      "fileSha256": "f0f65a6f9eafb64dbbc452c4cdf408fb267088c91f4f713d3b236b4b8202f4aa",
+      "in": {
+        "frame": 0,
+        "srcPtsUs": 0,
+        "snapErrorUs": 0,
+        "timelineMediaUs": 600000000,
+        "gameMs": 600000
+      },
+      "out": {
+        "frame": 3600,
+        "srcPtsUs": 120000000,
+        "snapErrorUs": 0,
+        "timelineMediaUs": 720000000,
+        "gameMs": 600000
+      },
+      "fpsNominal": 30,
+      "vfr": true,
+      "fileAvailable": true
+    }
+  ],
+  "gaps": [],
+  "licensing": {
+    "fullyLicensed": true,
+    "pieces": [
+      {
+        "materialVersionId": "materialVersion_0006",
+        "frameIn": 16200,
+        "frameOut": 18000,
+        "licensed": true,
+        "grantId": "grant_0069",
+        "territory": "CN",
+        "terms": "highlight-bundle-A"
+      },
+      {
+        "materialVersionId": "materialVersion_0008",
+        "frameIn": 0,
+        "frameOut": 3600,
+        "licensed": true,
+        "grantId": "grant_0072",
+        "territory": "CN",
+        "terms": "replay-reuse"
+      }
+    ]
+  },
+  "titles": [
+    {
+      "id": "title_0064",
+      "kind": "lower_third",
+      "text": null,
+      "status": "review_required",
+      "includeInExport": false,
+      "blockedReason": "标题复核中，禁止混入导出"
+    },
+    {
+      "id": "title_0065",
+      "kind": "end_card",
+      "text": null,
+      "status": "pending",
+      "includeInExport": false,
+      "blockedReason": "标题未批准，禁止混入导出"
+    }
+  ],
+  "warnings": [],
+  "export": {
+    "mayRender": false,
+    "rules": [
+      "仅可使用 approved 标题文案",
+      "许可未覆盖的 piece 必须剔除或换料后重解析",
+      "按 pieces 顺序与帧点生成 EDL；gap 不得静默跨越",
+      "以 materialId+materialVersionId+frameIn/frameOut+sha256 复现，不接受临时播放地址"
+    ]
+  }
+}

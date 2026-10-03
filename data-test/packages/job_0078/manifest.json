@@ -1,0 +1,36 @@
+{
+  "schema": "cut-task-package/v1",
+  "packageId": "68e149b56d45",
+  "jobId": "job_0078",
+  "clipId": "clip_0061",
+  "clipName": "林骁 8′20″ 突破",
+  "reelId": "reel_main",
+  "position": 50,
+  "createdAt": "2026-10-03T15:23:01.035Z",
+  "storeRev": 86,
+  "binding": "live",
+  "timelineVersion": {
+    "id": "timelineVersion_0012",
+    "version": 2,
+    "label": "精编生产版（广告替换为 B-roll 回放）",
+    "kind": "post"
+  },
+  "reproducibility": {
+    "coordinates": [
+      "frame(materialVersion)",
+      "srcPtsUs(materialVersion)",
+      "mediaUs(timelineVersion)",
+      "gameMs(clockSegment)"
+    ],
+    "note": "四个坐标分别存证；任何转换均经版本化映射。禁止用单一秒数互通。",
+    "frameModel": {
+      "ptsRule": "framePtsUs(frame) = f*base + base*amp*period/2π*(1-cos(2πf/period)) (+dropUs per vfrDropFrames)",
+      "snap": "出点/入点附带 snapErrorUs，表示请求位置相对最近帧的偏差"
+    }
+  },
+  "status": "tombstone",
+  "reason": "clip_deleted_before_processing",
+  "deletedReason": "planner-cancel",
+  "deletedAt": "2026-10-03T15:23:01.035Z",
+  "instruction": "该作业指向的镜头在作业完成前已被删除（完成晚于删除）。不要裁切、不要生成临时播放地址。"
+}

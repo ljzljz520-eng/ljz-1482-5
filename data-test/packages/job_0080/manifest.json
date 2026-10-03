@@ -1,0 +1,98 @@
+{
+  "schema": "cut-task-package/v1",
+  "packageId": "d006bbb5b548",
+  "jobId": "job_0080",
+  "clipId": "clip_0063",
+  "clipName": "固定源精修：44′40″ 扑救（单独短许可）",
+  "reelId": "reel_main",
+  "position": 70,
+  "createdAt": "2026-10-03T15:23:01.040Z",
+  "storeRev": 89,
+  "binding": "fixed",
+  "timelineVersion": {
+    "id": "timelineVersion_0012",
+    "version": 2,
+    "label": "精编生产版（广告替换为 B-roll 回放）",
+    "kind": "post"
+  },
+  "reproducibility": {
+    "coordinates": [
+      "frame(materialVersion)",
+      "srcPtsUs(materialVersion)",
+      "mediaUs(timelineVersion)",
+      "gameMs(clockSegment)"
+    ],
+    "note": "四个坐标分别存证；任何转换均经版本化映射。禁止用单一秒数互通。",
+    "frameModel": {
+      "ptsRule": "framePtsUs(frame) = f*base + base*amp*period/2π*(1-cos(2πf/period)) (+dropUs per vfrDropFrames)",
+      "snap": "出点/入点附带 snapErrorUs，表示请求位置相对最近帧的偏差"
+    }
+  },
+  "status": "ready",
+  "blockers": [],
+  "scoreAtIn": {
+    "home": 0,
+    "away": 0,
+    "source": "kickoff"
+  },
+  "pieces": [
+    {
+      "role": "fixed_source",
+      "materialId": "material_0002",
+      "materialVersionId": "materialVersion_0006",
+      "fileUri": "media/main-cam-v1.mfv",
+      "fileSha256": "a435917fb9af10a42cda3cf494355252c33c278ca2746406cf61c0f058412084",
+      "in": {
+        "frame": 80388,
+        "srcPtsUs": 2680000000,
+        "snapErrorUs": 0,
+        "timelineMediaUs": 2800000000,
+        "gameMs": 2680000
+      },
+      "out": {
+        "frame": 80837,
+        "srcPtsUs": 2694980922,
+        "snapErrorUs": 0,
+        "timelineMediaUs": 2814980922,
+        "gameMs": 2694980
+      },
+      "fpsNominal": 30,
+      "vfr": true,
+      "fileAvailable": true
+    }
+  ],
+  "gaps": [],
+  "licensing": {
+    "fullyLicensed": true,
+    "pieces": [
+      {
+        "materialVersionId": "materialVersion_0006",
+        "frameIn": 80388,
+        "frameOut": 80837,
+        "licensed": true,
+        "grantId": "grant_0071",
+        "territory": "CN",
+        "terms": "save-master-short"
+      }
+    ]
+  },
+  "titles": [
+    {
+      "id": "title_0068",
+      "kind": "lower_third",
+      "text": "林骁 精彩扑救",
+      "status": "approved",
+      "includeInExport": true,
+      "blockedReason": null
+    }
+  ],
+  "export": {
+    "mayRender": true,
+    "rules": [
+      "仅可使用 approved 标题文案",
+      "许可未覆盖的 piece 必须剔除或换料后重解析",
+      "按 pieces 顺序与帧点生成 EDL；gap 不得静默跨越",
+      "以 materialId+materialVersionId+frameIn/frameOut+sha256 复现，不接受临时播放地址"
+    ]
+  }
+}

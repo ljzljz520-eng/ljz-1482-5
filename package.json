@@ -1,0 +1,13 @@
+{
+  "name": "live-cut-planner",
+  "version": "1.0.0",
+  "description": "赛事直播切片全栈策划系统：三坐标版本化时间映射、集锦编排、许可与任务包",
+  "private": true,
+  "scripts": {
+    "start": "node server/server.js",
+    "worker": "node server/worker.js --watch",
+    "worker:once": "node server/worker.js",
+    "reset": "node -e \"require('./server/seed').reset(true)\"",
+    "test": "node --test test/"
+  }
+}
