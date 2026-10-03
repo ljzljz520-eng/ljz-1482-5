@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>赛事直播切片策划台</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+  <h1>赛事直播切片策划台</h1>
+  <div id="asset-bar">
+    <label>素材源 <select id="assetSel"></select></label>
+    <span id="assetMeta" class="muted"></span>
+  </div>
+</header>
+
+<main>
+  <section class="panel" id="previewPanel">
+    <h2>源视频预览 <span class="muted" id="tlInfo"></span></h2>
+    <div class="player-wrap">
+      <canvas id="player" width="640" height="300"></canvas>
+      <div class="coords">
+        <div>比赛计时 <b id="cClock">—</b></div>
+        <div>媒体时间 <b id="cMedia">—</b></div>
+        <div>帧位置 <b id="cFrame">—</b></div>
+      </div>
+    </div>
+    <div class="transport">
+      <button id="btnPlay">▶ 播放</button>
+      <button id="btnBack">−10s</button>
+      <button id="btnFwd">+10s</button>
+      <span class="muted">拖动时间轴可逐帧查看三坐标联动</span>
+    </div>
+    <div id="timelineBar" class="timeline-bar"></div>
+    <div class="legend">
+      <span class="lg content"></span>内容 <span class="lg ad"></span>广告
+      <span class="lg gap"></span>断流 <span class="lg evt"></span>事件
+      <span class="lg sel"></span>镜头入出点
+    </div>
+  </section>
+
+  <div class="cols">
+    <section class="panel">
+      <h2>① 标注事件</h2>
+      <div class="form">
+        <label>类型 <select id="evType">
+          <option>goal</option><option>chance</option><option>card</option>
+          <option>foul</option><option>sub</option></select></label>
+        <label>球队 <input id="evTeam" value="测试FC"></label>
+        <label>比分 <input id="evScoreH" type="number" min="0" value="1" class="w40"> :
+          <input id="evScoreA" type="number" min="0" value="0" class="w40"></label>
+        <label>球员 <select id="evPlayer"></select>
+          <select id="evRole"><option>actor</option><option>assist</option><option>carded</option></select>
+        </label>
+        <button id="btnAddEvent">在当前位置标注</button>
+      </div>
+      <ul id="eventList" class="list"></ul>
+    </section>
+
+    <section class="panel">
+      <h2>② 安排集锦镜头</h2>
+      <div class="form">
+        <label>名称 <input id="clipName" value="新镜头"></label>
+        <label>锚定
+          <select id="anchorMode">
+            <option value="tracking">跟随可更新时间轴</option>
+            <option value="pinned">固定源片段</option>
+          </select></label>
+        <button id="btnSetIn">设入点</button>
+        <button id="btnSetOut">设出点</button>
+        <span id="inOutView" class="muted">未设置</span>
+        <button id="btnMakeClip">创建镜头</button>
+      </div>
+      <ul id="clipList" class="list"></ul>
+    </section>
+  </div>
+
+  <div class="cols">
+    <section class="panel">
+      <h2>③ 文案复核 <span class="muted">比分订正/球员变化自动打回</span></h2>
+      <ul id="copyList" class="list"></ul>
+    </section>
+    <section class="panel">
+      <h2>④ 导出任务包 <span class="muted">幂等; 含素材身份+版本+三坐标</span></h2>
+      <ul id="jobList" class="list"></ul>
+      <pre id="pkgView" class="pkg"></pre>
+    </section>
+  </div>
+
+  <section class="panel">
+    <h2>运维演练 <span class="muted">广告插入 / 时间戳重置 / 后期替换 / 后补素材</span></h2>
+    <div class="form">
+      <button id="btnPubV2">发布v2: 净信号(去广告去断流)</button>
+      <button id="btnPubV3">发布v3: 时间戳重置(计时重复)</button>
+      <button id="btnWithdraw">源下架(后期替换)</button>
+      <button id="btnCorrect">比分订正: 首球改 1-1</button>
+      <button id="btnRefresh">刷新</button>
+    </div>
+    <ul id="relocList" class="list"></ul>
+  </section>
+</main>
+<script src="/app.js"></script>
+</body>
+</html>
